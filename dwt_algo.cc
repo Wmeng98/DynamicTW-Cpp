@@ -10,7 +10,10 @@
 
 using namespace std;
 
-
+struct point {
+  int x;
+  int y;
+};
 
 void print_matrix(vector< vector<int> > &matrix) {
   cout << endl;
@@ -72,16 +75,25 @@ int getPolySize() {
   cin >> size;
   return size;
 }
+
+
 // Read time series values from a file
-void readTimeSeries(vector<int> &timeS, int size) {
+void readTimeSeries(vector<int> &timeS, int size, vector<point> &timeSS) {
   // read in from stdin
   int c = 0;
   int val;
   while (c < size) {
+    point p;
+    cin >> val; // x val
+    p.x = val;
     cin >> val;
+    p.y = val;
+
     timeS.push_back(val);
+    timeSS.push_back(p);
+
     c++;
-  }
+  } // skip the next "size n" values because they represent the correspnding x values to the
 }
 
 // Pass in matrix coordinates
@@ -166,6 +178,8 @@ void augmentSmallestPath(vector<vector<int> > &matrix, int x, int y) {
   }
 }
 
+
+
 int main(int argc, char const *argv[]) {
   
   int polySize;
@@ -173,13 +187,16 @@ int main(int argc, char const *argv[]) {
   vector<int> timeB;
   vector<vector<int> > matrix;
 
+  vector<point> timeAA;
+  vector<point> timeBB;
+
   polySize = getPolySize();
 
   gen_matrix(matrix, polySize + 1);
 
   // init time series
-  readTimeSeries(timeA, polySize);
-  readTimeSeries(timeB, polySize);
+  readTimeSeries(timeA, polySize, timeAA);
+  readTimeSeries(timeB, polySize, timeBB);
 
   populate_matrix(matrix, timeA, 0);
   populate_matrix(matrix, timeB, 1);
